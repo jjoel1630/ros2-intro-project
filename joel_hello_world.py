@@ -21,17 +21,18 @@ class AckermannPublisher(Node):
     def lidar_callback(self, msg):
         # Get the middle value of the lidar: msg.ranges[500]
         lidar_reading = msg.ranges[500]
+        self.get_logger().info(f'Lidar reading: {lidar_reading}')
 
-        speed = 1.0
+        speed = 0.5
         if lidar_reading > 0.5:
-            speed = 1.0
+            speed = 0.5
         else:
             speed = 0.0
 
         stamped_msg = AckermannDriveStamped()
         stamped_msg.drive = AckermannDrive()
-        stamped_msg.drive.steering_angle = 0
-        stamped_msg.drive.speed = 1
+        stamped_msg.drive.steering_angle = 0.0
+        stamped_msg.drive.speed = speed
 
         self.publisher.publish(stamped_msg)
 
